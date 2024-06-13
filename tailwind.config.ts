@@ -6,8 +6,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-      },
+        sans: ["Inter var, sans-serif",
+          {
+            fontFeatureSettings: '"cv11", "ss01"',
+            fontVariationSettings: '"opsz" 32'
+          },
+          
+        ],
+      },  
     },
   },
   plugins: [],
