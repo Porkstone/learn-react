@@ -28,14 +28,14 @@ export default function TestPage() {
         </div>
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="start">Start Date</label>
-          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.valueAsDate)} />
+          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="date" id="startDate" name="startDate"  />
          </div>
          <div className="flex flex-col">
           <label className="text-sm" htmlFor="noNights">Number of Nights</label>
-          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="text" name="noNights" placeholder="Number of nights" />
+          <input className="appearance-none text-xl border rounded w-full py-2 px-3 text-violet-700  leading-tight"  type="text" name="noNights" placeholder="e.g. 7" defaultValue={7} />
           </div>
-          <div className="flex flex-col justify-">
-          <button className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="submit">Search</button>
+          <div className="flex flex-col pt-4 px-10">
+          <button className="text-xl border rounded w-full  py-2 px-3 text-white bg-violet-700 leading-tight" type="submit">Search</button>
           </div>
           </div>
         </form>
@@ -57,11 +57,6 @@ function SelectHotel(id: string, nameOfHotel: string) {
   );
 }
 
-function SimpleLink(url: string, target: string) {
-  return (
-    <a href={url} target={target}></a>
-  );}
-
 function Example() {
   const { isPending, error, data } = useQuery({
     queryKey: ['repoData'],
@@ -70,12 +65,17 @@ function Example() {
         res.json(),
       ),
   })
-
+  
   if (isPending) return 'Loading...'
 
   if (error || !data) return 'An error has occurred: ' + error.message
   
-  const hotelCards = data.map(hotel => <div className="p-2"><div className='text-lg'> <SimpleLink url="https://google.co.uk" target="_self"></SimpleLink> </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
+  console.log(data)
+
+  const hotelCards = data.map(hotel => <div key={hotel.entity_id} className="p-2">
+                                        <div className='text-lg'> 
+                                          <a href="https://google.co.uk" target="_self">{hotel.entity_name}</a> 
+                                        </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
   return (
     <div>
       <div className='text-xl'>Hotels</div>
