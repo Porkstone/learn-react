@@ -14,6 +14,7 @@ export const metadata = {
   title: "Zorro - travel for less",
   description: "Making your money travel further",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  //viewport: "width=device-width, initial-scale=1",
 };
 
 

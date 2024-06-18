@@ -1,0 +1,89 @@
+"use client";
+import { doc } from "prettier";
+import { title } from "process";
+import React, {useEffect, useState} from "react";
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
+  } from '@tanstack/react-query'
+import NumberSelector from "./numberSelector";
+
+export interface searchProps {
+  searchText: string;
+}
+
+function Example(props: searchProps) {
+  const { searchText } = props;
+  
+  const encodedString = encodeURI(searchText);
+  
+  const { isPending, error, data } = useQuery({
+    queryKey: ['repoData', searchText],
+    queryFn: () =>
+      fetch('https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/UK/en-GB/' + encodedString + '?rf=map&vrows=10').then((res) =>
+        res.json(),
+      ),
+  })
+  
+  if (isPending) return 'Loading...'
+
+  if (error) return 'An error has occurred: ' + error.message
+  if (!data) return 'An error has occurred: No data found'
+  
+  console.log(data)
+  const hotelCards = data.map(hotel => <div key={hotel.entity_id} className="p-2">
+                                            <div className='text-lg'> 
+                                              <a href="https://google.co.uk" target="_self">{hotel.entity_name}</a> 
+                                            </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
+
+  return (
+    <div>
+      <div className='text-xl'>Hotels</div>
+      {hotelCards}
+    </div>
+  )
+}
+function SearchBox() {
+    const [searchText, setSearchText] = useState('');
+    
+  return (<div>
+  <div className="flex gap-4 items-center justify-center border-b border-violet-500">
+    <div className="flex">
+      <div className=" flex flex-wrap items-center text-violet-700 py-2 gap-4">
+        <div className="flex flex-col">
+          <label className="text-sm" htmlFor="hotel">Hotel Name</label>
+          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight"
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            placeholder="Hotel Name" />
+
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm" htmlFor="startDate">Start Date</label>
+          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="date" id="startDate" name="startDate" />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm" htmlFor="noNights">Number of Nights</label>
+          <NumberSelector defaultValue={7} />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm" htmlFor="noPeople">Number of People</label>
+          <NumberSelector defaultValue={2} />
+        </div>
+        <div className="flex flex-col pt-5">
+          <button className="text-xl border rounded py-2 px-3 w-48 md:w-28 text-white bg-violet-700 leading-tight" type="submit">Search</button>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+  <div>
+      <Example searchText={searchText} />
+    </div>
+  </div>)
+}
+
+export default SearchBox;
