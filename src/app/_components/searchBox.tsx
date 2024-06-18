@@ -13,6 +13,23 @@ export interface searchProps {
   searchText: string;
 }
 
+export interface HotelType {
+  hierarchy:   string;
+  location:    string;
+  score:       number;
+  type:        string;
+  entity_name: string;
+  highlight:   Highlight;
+  entity_id:   string;
+  class:       string;
+  pois:        null;
+}
+
+export interface Highlight {
+  entity_name: string;
+  hierarchy:   string;
+}
+
 function Example(props: searchProps) {
   const { searchText } = props;
   
@@ -30,9 +47,9 @@ function Example(props: searchProps) {
 
   if (error) return 'An error has occurred: ' + error.message
   if (!data) return 'An error has occurred: No data found'
-  
+  let hotel: HotelType;
   console.log(data)
-  const hotelCards = data.map(hotel => <div key={hotel.entity_id} className="p-2">
+  const hotelCards = data.map(hotel  => <div key={hotel.entity_id} className="p-2">
                                             <div className='text-lg'> 
                                               <a href="https://google.co.uk" target="_self">{hotel.entity_name}</a> 
                                             </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
@@ -73,7 +90,7 @@ function SearchBox() {
           <NumberSelector defaultValue={2} />
         </div>
         <div className="flex flex-col pt-5">
-          <button className="text-xl border rounded py-2 px-3 w-48 md:w-28 text-white bg-violet-700 leading-tight" type="submit">Search</button>
+          <button className="text-xl border rounded py-2 px-3 w-48 md:w-28 text-white bg-violet-500 leading-tight" type="submit">Search</button>
         </div>
 
       </div>

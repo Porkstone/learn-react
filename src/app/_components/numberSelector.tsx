@@ -22,8 +22,8 @@ function NumberSelector({ defaultValue}: { defaultValue: number }) {
                     placeholder="" 
                     value={people} 
                     readOnly/>
-          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-700" onClick={incrementPeople}>+</button>
-          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-700 " onClick={decrementPeople} >-</button>
+          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-500 " onKeyDown={decrementPeople} >-</button>
+          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-500" onKeyDown={incrementPeople}>+</button>
     </div>)
 }
 
