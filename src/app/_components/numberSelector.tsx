@@ -11,7 +11,9 @@ function NumberSelector({ defaultValue}: { defaultValue: number }) {
     }
 
     const decrementPeople = () => {
+        if (people > 1) {
         setPeople(people - 1)
+        }
     }
         return(
     <div className="flex">
@@ -22,7 +24,7 @@ function NumberSelector({ defaultValue}: { defaultValue: number }) {
                     placeholder="" 
                     value={people} 
                     readOnly/>
-          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-500 " onClick={decrementPeople} >-</button>
+          <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-500 " onClick={decrementPeople}>-</button>
           <button className="text-xl border rounded py-2 px-3 w-12 text-white bg-violet-500"  onClick={incrementPeople}>+</button>
     </div>)
 }
