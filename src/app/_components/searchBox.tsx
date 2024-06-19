@@ -79,7 +79,7 @@ function SearchBox() {
         </div>
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="startDate">Start Date</label>
-          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />  
+          <input className="appearance-none text-xl border rounded w-48  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />  
         </div>
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="noNights">Number of Nights</label>
