@@ -30,7 +30,7 @@ export interface Highlight {
   hierarchy:   string;
 }
 
-function Example(props: searchProps) {
+function SearchResults(props: searchProps) {
   const { searchText } = props;
   
   const encodedString = encodeURI(searchText);
@@ -70,7 +70,7 @@ function SearchBox() {
       <div className=" flex flex-wrap items-center text-violet-700 py-2 gap-4">
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="hotel">Hotel Name</label>
-          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight"
+          <input className="appearance-none text-xl border rounded w-72  py-2 px-3 text-violet-700  leading-tight"
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -98,7 +98,7 @@ function SearchBox() {
     
   </div>
   <div>
-      <Example searchText={searchText} />
+      <SearchResults searchText={searchText} />
     </div>
   </div>)
 }
