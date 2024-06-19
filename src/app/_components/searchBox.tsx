@@ -63,6 +63,7 @@ function SearchResults(props: searchProps) {
 }
 function SearchBox() {
     const [searchText, setSearchText] = useState('');
+    const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     
   return (<div>
   <div className="flex gap-4 items-center justify-center border-b border-violet-500">
@@ -75,11 +76,10 @@ function SearchBox() {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             placeholder="Hotel Name" />
-
         </div>
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="startDate">Start Date</label>
-          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" type="date" id="startDate" name="startDate" />
+          <input className="appearance-none text-xl border rounded w-full  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />  
         </div>
         <div className="flex flex-col">
           <label className="text-sm" htmlFor="noNights">Number of Nights</label>
