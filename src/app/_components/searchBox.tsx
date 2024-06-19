@@ -49,13 +49,23 @@ function SearchResults(props: searchProps) {
   if (!data) return 'An error has occurred: No data found'
   let hotel: HotelType;
   console.log(data)
-  const hotelCards = data.map(hotel  => <div key={hotel.entity_id} className="p-2">
+  // filter for the hotels 
+  const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
+  console.log(filteredData)
+  const hotelCards = filteredData.map(hotel => <div key={hotel.entity_id} className="p-2">
                                             <div className='text-lg'> 
                                               <a href="https://google.co.uk" target="_self">{hotel.entity_name}</a> 
                                             </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
   if(encodedString === '')
     return (<div>...</div>)
-  
+  if(filteredData.length === 1)
+    return (
+      
+      <div className='border-2 border-violet-500'>
+        {hotelCards}
+      </div>
+    )
+    
   return (
       
     <div>
