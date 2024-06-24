@@ -50,12 +50,16 @@ function SearchResults(props: searchProps) {
   let hotel: HotelType;
   console.log(data)
   // filter for the hotels 
+  const handleClick = (hotel: HotelType) => {
+    console.log(hotel)
+    //setSearchText(hotel.entity_name)
+  }
   const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
   console.log(filteredData)
   const hotelCards = filteredData.map(hotel => <div key={hotel.entity_id} className="p-2">
-                                            <div className='text-lg'> 
-                                              <a href="https://google.co.uk" target="_self">{hotel.entity_name}</a> 
-                                            </div>Region {hotel.hierarchy} - Id: {hotel.entity_id}</div>)
+                                            <div className='text-lg' onClick={(e) => handleClick(hotel)}>
+                                              <div>{hotel.entity_name}</div> 
+                                            </div>{hotel.hierarchy}</div>)
   if(encodedString === '')
     return (<div>...</div>)
   if(filteredData.length === 1)
@@ -88,7 +92,11 @@ function SearchBox() {
             <label className="text-sm" htmlFor="hotel">Hotel Name</label>
             <input className="appearance-none text-xl border rounded w-72  py-2 px-3 text-violet-700  leading-tight"
               type="text"
-              autocorrect="off"
+              autoComplete="off" // Stop iOS from making suggestions
+              autoCorrect="off" // Stop iOS from making suggestions
+              autoCapitalize="off" // Stop iOS from making suggestions
+              spellCheck="false" // Stop iOS from making suggestions
+              autoFocus
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               placeholder="Hotel Name" />
