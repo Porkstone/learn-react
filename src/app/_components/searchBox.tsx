@@ -8,10 +8,9 @@ import {
     useQuery,
   } from '@tanstack/react-query'
 import NumberSelector from "./numberSelector";
+import { hotelProps } from "../testPage/page";
+import { on } from "events";
 
-export interface searchProps {
-  searchText: string;
-}
 
 export interface HotelType {
   hierarchy:   string;
@@ -23,6 +22,7 @@ export interface HotelType {
   entity_id:   string;
   class:       string;
   pois:        null;
+  
 }
 
 export interface Highlight {
@@ -30,8 +30,15 @@ export interface Highlight {
   hierarchy:   string;
 }
 
-function SearchResults(props: searchProps) {
-  const { searchText } = props;
+
+export interface searchPropsType {
+  searchText: string;
+  updateHotelCount: (hotelCount: number) => void;
+}
+
+function SearchResults({ searchText, updateHotelCount }: searchPropsType) {
+  
+  const changeParentState = (hotelCount: number) => {updateHotelCount(hotelCount)}
   
   const encodedString = encodeURI(searchText);
   
@@ -60,12 +67,14 @@ function SearchResults(props: searchProps) {
                                             <div className='text-lg' onClick={(e) => handleClick(hotel)}>
                                               <div>{hotel.entity_name}</div> 
                                             </div>{hotel.hierarchy}</div>)
+  changeParentState(filteredData.length)
   if(encodedString === '')
     return (<div>...</div>)
   if(filteredData.length === 1)
     return (
       
       <div className='border-2 border-violet-500'>
+        <div>1</div>
         {hotelCards}
       </div>
     )
@@ -80,9 +89,13 @@ function SearchResults(props: searchProps) {
   
 
 }
-function SearchBox() {
+function SearchBox(props: hotelProps) {
     const [searchText, setSearchText] = useState('');
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [hotelCount, setHotelCount] = useState<number>(0);
+
+    const updateHotelCount = (hotelCount: number) => {setHotelCount(hotelCount)}
+      
     
   return (<div>
     <div className="flex gap-4 items-center justify-center border-b border-violet-500">
@@ -103,7 +116,8 @@ function SearchBox() {
           </div>
           <div className="flex flex-col">
             <div>
-              <SearchResults searchText={searchText} />
+              <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} />
+              <div>{hotelCount}</div>
             </div>
           </div>
           <div className="flex flex-col">

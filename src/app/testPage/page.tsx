@@ -8,6 +8,15 @@ import { useEffect, useState } from "react";
 
 import NumberSelector from "../_components/numberSelector";
 import SearchBox from "../_components/searchBox";
+import BestPrice from "../_components/bestPrice";
+
+export interface hotelProps {
+  hotelName: string;
+  startDate: Date;
+  numberOfNights: number;
+  numberOfPeople: number;
+}
+
 
 function App() {
   return (
@@ -22,18 +31,14 @@ export default App;
 function TestPage() {
   const [startDate, setStartDate] = useState(new Date());
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  
+  const [hotelName, setHotelName] = useState('');
 
-  function SelectHotel(id: string, nameOfHotel: string) {
-    const hotelName = nameOfHotel.replace(/\s/g, '');
-    return (
-        <a href={`https://awww.skyscanner.net/g/hotels-website/api/hotels-recommendation/v1?adults=2&checkin=2024-06-18&checkout=2024-06-19&currency=GBP&entity_id=${id}&locale=en-GB&market=UK&recommend_types=recommend%2Cbooked%2Cpopular%2Chighest&rooms=1/`}>{hotelName}</a>
-    );
-  }
+ 
 
   return (
     <main className="p-5 ">
-          <SearchBox />
+          <SearchBox hotelName={hotelName} startDate={startDate} numberOfNights={7} numberOfPeople={2} />
+          <BestPrice hotelName={hotelName} startDate={startDate} numberOfNights={7} numberOfPeople={2} />  
     </main>
 
   );
