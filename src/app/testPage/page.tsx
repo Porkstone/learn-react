@@ -4,7 +4,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
  
  const queryClient = new QueryClient()
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import NumberSelector from "../_components/numberSelector";
 import SearchBox from "../_components/searchBox";
@@ -12,7 +12,7 @@ import BestPrice from "../_components/bestPrice";
 
 export interface hotelProps {
   hotelName: string;
-  startDate: Date;
+  startDate: string;
   numberOfNights: number;
   numberOfPeople: number;
 }
@@ -30,15 +30,16 @@ function App() {
 export default App;
 function TestPage() {
   const [startDate, setStartDate] = useState(new Date());
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [hotelName, setHotelName] = useState('');
+    const [hotelName, setHotelName] = useState('');
+  
 
  
 
   return (
     <main className="p-5 ">
-          <SearchBox hotelName={hotelName} startDate={startDate} numberOfNights={7} numberOfPeople={2} />
-          <BestPrice hotelName={hotelName} startDate={startDate} numberOfNights={7} numberOfPeople={2} />  
+          <SearchBox />
+  
+          
     </main>
 
   );
