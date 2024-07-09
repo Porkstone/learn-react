@@ -117,7 +117,7 @@ function SearchBox(props: hotelProps) {
           <div className="flex flex-col">
             <div>
               <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} />
-              <div>{hotelCount}</div>
+              {hotelCount == 1 && <div>{hotelCount}</div>}
             </div>
           </div>
           <div className="flex flex-col">
