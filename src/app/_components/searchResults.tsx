@@ -21,9 +21,10 @@ interface Highlight {
 export interface searchPropsType {
     searchText: string;
     updateHotelCount: (hotelCount: number) => void;
+    updateHotelName: (hotelName: string) => void;
 }
 
-export default function SearchResults({ searchText, updateHotelCount }: searchPropsType) {
+export default function SearchResults({ searchText, updateHotelCount, updateHotelName }: searchPropsType) {
 
     const changeParentState = (hotelCount: number) => { updateHotelCount(hotelCount) }
 
@@ -44,12 +45,12 @@ export default function SearchResults({ searchText, updateHotelCount }: searchPr
     console.log(data)
     // filter for the hotels 
     const handleClick = (hotel: HotelType) => {
-        console.log(hotel)
-        //setSearchText(hotel.entity_name)
+        console.log(hotel.entity_name)
+        updateHotelName(hotel.entity_name)
     }
     const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
     console.log(filteredData)
-    const hotelCards = filteredData.map((hotel: HotelType) => <div key={hotel.entity_id} className="p-2 w-full">
+    const hotelCards = filteredData.map((hotel: HotelType) => <div key={hotel.entity_id} className="p-2 w-96">
         <div className='text-lg' onClick={(e) => handleClick(hotel)}>
             <div>{hotel.entity_name}</div>
         </div>{hotel.hierarchy}</div>)
@@ -57,16 +58,19 @@ export default function SearchResults({ searchText, updateHotelCount }: searchPr
     if (encodedString === '')
         return (<div>...</div>)
     if (filteredData.length === 1)
+        {
+            
         return (
-            <div className='border-2 border-violet-500 rounded-md w-full'>
+            <div className='border-2 bg-violet-500 rounded-md w-96'>
                 {hotelCards}
             </div>
         )
-
+    }
+    if (filteredData.length > 1)
     return (
 
         <div>
-            <div className='text-xl w-full' >Hotels</div>
+            <div className='text-xl w-96' >Hotels</div>
             {hotelCards}
         </div>
     )

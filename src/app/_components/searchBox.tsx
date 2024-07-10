@@ -15,9 +15,10 @@ function SearchBox() {
   const [searchText, setSearchText] = useState('');
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [hotelCount, setHotelCount] = useState<number>(0);
+  
 
   const updateHotelCount = (hotelCount: number) => { setHotelCount(hotelCount) }
-
+  const updateHotelName = (hotelName: string) => { setSearchText(hotelName) }
 
   return (<div>
    
@@ -26,7 +27,7 @@ function SearchBox() {
         <div className=" flex flex-wrap items-center text-violet-700 py-2 gap-4">
           <div className="flex flex-col">
             <label className="text-sm" htmlFor="hotel">Hotel Name</label>
-            <input className="appearance-none text-xl border rounded w-72  py-2 px-3 text-violet-700  leading-tight"
+            <input className="appearance-none text-xl border rounded w-96  py-2 px-3 text-violet-700  leading-tight"
               type="text"
               autoComplete="off" // Stop iOS from making suggestions
               autoCorrect="off" // Stop iOS from making suggestions
@@ -39,8 +40,8 @@ function SearchBox() {
           </div>
           
           <div className="flex flex-col w-full">
-            <div className="w-full">
-              <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} />
+            <div className="w-96">
+              <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} updateHotelName={updateHotelName} />
             </div>
           </div>
           <div className="flex flex-col">
@@ -59,9 +60,11 @@ function SearchBox() {
         </div>
       </div>
     </div>
+    <div className='text-xl w-96' >
   <Suspense fallback={<div>Loading...</div>}>
     {hotelCount == 1 && <BestPrice hotelName={searchText} startDate={startDate} numberOfNights={7} numberOfPeople={2} />}
     </Suspense>
+    </div>
   </div>
   )
 }

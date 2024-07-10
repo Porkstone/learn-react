@@ -5,7 +5,85 @@ import { number } from "zod";
 import { hotelProps } from "../testPage/page";
 import { time } from 'console';
 
+export interface RoomsAvailable {
+    result: string;
+    available: Available;
+    sessionCode: string;
+  }
+  export interface Available {
+    rooms?: (RoomsEntity)[] | null;
+    parkings?: (null)[] | null;
+    extras?: (ExtrasEntity)[] | null;
+  }
+  export interface RoomsEntity {
+    id: number;
+    name: string;
+    description: string;
+    content: string;
+    adults: number;
+    children: number;
+    babies: number;
+    images?: (ImagesEntityOrImage)[] | null;
+    quantity: number;
+    rates?: (RatesEntity)[] | null;
+    internalId: number;
+    untranslatedName: string;
+  }
+  export interface ImagesEntityOrImage {
+    id: string;
+    servingUrl: string;
+    width: number;
+    height: number;
+  }
+  export interface RatesEntity {
+    id: number;
+    name: string;
+    description: string;
+    content: string;
+    offer: boolean;
+    repayable: boolean;
+    packages?: (PackagesEntity)[] | null;
+    untranslatedName: string;
+  }
+  export interface PackagesEntity {
+    id: number;
+    name: string;
+    description: string;
+    content: string;
+    price: number;
+    oldPrice: number;
+    parking?: null;
+    bookCode: string;
+    untranslatedName: string;
+  }
+  export interface ExtrasEntity {
+    id: number;
+    name: string;
+    description: string;
+    content: string;
+    image: ImagesEntityOrImage;
+    rooms?: (RoomsEntity1)[] | null;
+    untranslatedName: string;
+  }
+  export interface RoomsEntity1 {
+    roomBookCode: string;
+    roomName: string;
+    dates?: (DatesEntity)[] | null;
+    optionId: string;
+  }
+  export interface DatesEntity {
+    date: Date;
+    price: number;
+    bookCode: string;
+    quantity: number;
+  }
+  export interface Date {
+    day: number;
+    month: number;
+    year: number;
+  }
 
+  
 async function fetchPokemon(name: string) {
 	const pokemonQuery = `
     {
@@ -32,15 +110,16 @@ async function fetchPokemon(name: string) {
      }
   `
 
-const response = await window.fetch('https://www.mesondesancho.com/_/onetbooking.v4.engine.EngineService.GetAvailability', {
+const response = await fetch('https://www.mesondesancho.com/_/onetbooking.v4.engine.EngineService.GetAvailability', {
     // learn more about this API here: https://graphql-pokemon2.vercel.app/
     method: 'POST',
     headers: {
         'content-type': 'application/json',
     },
     body: pokemonQuery,
-})
-const { data, errors } = await response.json()
+    }).then((res) => res.json())
+
+    const { data, errors } = await response.json()
     if (!response.ok) {
         console.log(response.status)
         const error = new Error(
@@ -76,11 +155,11 @@ export default function  BestPrice(props: hotelProps) {
       },
     })
     
-    
+    console.log(data)
     return(
-
+        
       <div>
-            <h1>Best price ...</h1>
+            <h1>Best price for {props.hotelName}...</h1>
             <div> £46 per night</div>
 
       </div>
