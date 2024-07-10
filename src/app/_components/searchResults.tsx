@@ -50,28 +50,47 @@ export default function SearchResults({ searchText, updateHotelCount, updateHote
     }
     const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
     console.log(filteredData)
-    const hotelCards = filteredData.map((hotel: HotelType) => <div key={hotel.entity_id} className="p-1 w-96 border-t border-violet-500 my-0.5">
-        <div className='text-lg' onClick={(e) => handleClick(hotel)} onTouchStart={(e) => handleClick(hotel)}>
-            <div>{hotel.entity_name}</div>
-        </div>{hotel.hierarchy}</div>)
     changeParentState(filteredData.length)
+
+    let hotelCards: JSX.Element;
+    if (filteredData.length === 1){
+    hotelCards = filteredData.map((hotel: HotelType) => 
+        <div key={hotel.entity_id} className="p-2 border-2 bg-violet-500 rounded-md w-96 text-white">
+            <div className='text-lg' onClick={(e) => handleClick(hotel)} onTouchStart={(e) => handleClick(hotel)}>
+                <div>{hotel.entity_name}</div>
+                <div>{hotel.hierarchy}</div>
+            </div>
+        </div>)
+        } else{
+            hotelCards = filteredData.map((hotel: HotelType) => 
+            <div key={hotel.entity_id} className=" border-t border-violet-500 p-1 m-t-1 w-96 ">
+                <div className='text-base' onClick={(e) => handleClick(hotel)} onTouchStart={(e) => handleClick(hotel)}>
+                    <div className='font-medium'>{hotel.entity_name}</div>
+                    <div>{hotel.hierarchy}</div>
+                </div>
+        </div>)
+        }
+    
     if (encodedString === '')
-        return (<div>...</div>)
+        return (<div>Please enter a hotel above.</div>)
+    
     if (filteredData.length === 1)
         {
-            
         return (
             <div className='border-2 bg-violet-500 rounded-md w-96 text-white'>
                 {hotelCards}
             </div>
         )
     }
+
     if (filteredData.length > 1)
     return (
 
         <div>
-            <div className='text-xl w-96' >Hotels</div>
+            <div className='text-xl w-96 pb-1 font-medium'>Matching hotels:</div>
             {hotelCards}
         </div>
+
     )
+    
 }

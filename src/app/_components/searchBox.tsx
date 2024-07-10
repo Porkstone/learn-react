@@ -39,11 +39,7 @@ function SearchBox() {
               placeholder="Hotel Name" />
           </div>
           
-          <div className="flex flex-col w-full">
-            <div className="w-96">
-              <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} updateHotelName={updateHotelName} />
-            </div>
-          </div>
+          
           <div className="flex flex-col">
             <label className="text-sm" htmlFor="startDate">Start Date</label>
             <input className="appearance-none text-xl border rounded w-48  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />
@@ -56,7 +52,11 @@ function SearchBox() {
             <label className="text-sm" htmlFor="noPeople">People</label>
             <NumberSelector defaultValue={2} />
           </div>
-          
+          <div className="flex flex-col w-full">
+            <div className="w-96">
+              <SearchResults searchText={searchText} updateHotelCount={updateHotelCount} updateHotelName={updateHotelName} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
