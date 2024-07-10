@@ -50,8 +50,8 @@ export default function SearchResults({ searchText, updateHotelCount, updateHote
     }
     const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
     console.log(filteredData)
-    const hotelCards = filteredData.map((hotel: HotelType) => <div key={hotel.entity_id} className="p-2 w-96 ">
-        <div className='text-lg' onClick={(e) => handleClick(hotel)}>
+    const hotelCards = filteredData.map((hotel: HotelType) => <div key={hotel.entity_id} className="p-1 w-96 border-t border-violet-500 my-0.5">
+        <div className='text-lg' onClick={(e) => handleClick(hotel)} onTouchStart={(e) => handleClick(hotel)}>
             <div>{hotel.entity_name}</div>
         </div>{hotel.hierarchy}</div>)
     changeParentState(filteredData.length)
@@ -61,7 +61,7 @@ export default function SearchResults({ searchText, updateHotelCount, updateHote
         {
             
         return (
-            <div className='border-2 bg-violet-500 rounded-md w-96'>
+            <div className='border-2 bg-violet-500 rounded-md w-96 text-white'>
                 {hotelCards}
             </div>
         )
