@@ -1,167 +1,121 @@
 "use client"
 
-import {useQuery, useMutation} from '@tanstack/react-query'
-import { number } from "zod";
+import { useQuery } from '@tanstack/react-query'
 import { hotelProps } from "../testPage/page";
-import { time } from 'console';
 
-export interface RoomsAvailable {
-    result: string;
-    available: Available;
-    sessionCode: string;
-  }
-  export interface Available {
-    rooms?: (RoomsEntity)[] | null;
-    parkings?: (null)[] | null;
-    extras?: (ExtrasEntity)[] | null;
-  }
-  export interface RoomsEntity {
-    id: number;
-    name: string;
-    description: string;
-    content: string;
-    adults: number;
-    children: number;
-    babies: number;
-    images?: (ImagesEntityOrImage)[] | null;
-    quantity: number;
-    rates?: (RatesEntity)[] | null;
-    internalId: number;
-    untranslatedName: string;
-  }
-  export interface ImagesEntityOrImage {
-    id: string;
-    servingUrl: string;
-    width: number;
-    height: number;
-  }
-  export interface RatesEntity {
-    id: number;
-    name: string;
-    description: string;
-    content: string;
-    offer: boolean;
-    repayable: boolean;
-    packages?: (PackagesEntity)[] | null;
-    untranslatedName: string;
-  }
-  export interface PackagesEntity {
-    id: number;
-    name: string;
-    description: string;
-    content: string;
-    price: number;
-    oldPrice: number;
-    parking?: null;
-    bookCode: string;
-    untranslatedName: string;
-  }
-  export interface ExtrasEntity {
-    id: number;
-    name: string;
-    description: string;
-    content: string;
-    image: ImagesEntityOrImage;
-    rooms?: (RoomsEntity1)[] | null;
-    untranslatedName: string;
-  }
-  export interface RoomsEntity1 {
-    roomBookCode: string;
-    roomName: string;
-    dates?: (DatesEntity)[] | null;
-    optionId: string;
-  }
-  export interface DatesEntity {
-    date: Date;
-    price: number;
-    bookCode: string;
-    quantity: number;
-  }
-  export interface Date {
-    day: number;
-    month: number;
-    year: number;
-  }
+export interface HotelType {
+  destinationName: string;
+  recommendHotelsCards: RecommendHotelsCard[];
+  generalType: string;
+}
 
-  
-async function fetchPokemon(name: string) {
-	const pokemonQuery = `
-    {
-        "lang":"en",
-        "promoCode":"",
-        "hotelCheckin":{
-           "day":17,
-           "month":10,
-           "year":2024
-        },
-        "hotelCheckout":{
-           "day":18,
-           "month":10,
-           "year":2024
-        },
-        "rooms":[
-           {
-              "adults":2,
-              "childrenAges":[
-                 
-              ]
-           }
-        ]
-     }
-  `
+export interface RecommendHotelsCard {
+  id: string;
+  name: string;
+  relevantPOI: null;
+  image: null | string;
+  numberOfReviews: number;
+  reviewScore: number | null;
+  reviewSummary: string;
+  numberOfStars: number | null;
+  priceInfo: PriceInfo;
+  mostPopularWith: null;
+  reviewsSummaryInfo: ReviewsSummaryInfo | null;
+  distanceInfo: DistanceInfo;
+  recommendGuest: null;
+  recommendReview: null;
+  recommendReviewsCount: null;
+  recommendCategory: string;
+  recommendGeneral: string;
+  generalReviewCount: null;
+  generalReview: null;
+  url: string;
+}
 
-const response = await fetch('https://www.mesondesancho.com/_/onetbooking.v4.engine.EngineService.GetAvailability', {
-    // learn more about this API here: https://graphql-pokemon2.vercel.app/
-    method: 'POST',
-    headers: {
-        'content-type': 'application/json',
-    },
-    body: pokemonQuery,
-    }).then((res) => res.json())
+export interface DistanceInfo {
+  distanceMeters: number;
+  referenceEntityType: string;
+  referenceEntityName: string;
+  cityName: string;
+}
 
-    const { data, errors } = await response.json()
-    if (!response.ok) {
-        console.log(response.status)
-        const error = new Error(
-			errors?.map((e: any) => e.message).join('\n') ?? 'unknown',
-		)
-        return Promise.reject(error)
+export interface PriceInfo {
+  price: number;
+  basePrice: number;
+  taxesAndFees: TaxesAndFee[];
+  partnerId: string;
+  funnelType: string;
+}
+
+export interface TaxesAndFee {
+  total: number;
+  included: boolean;
+  key: string;
+}
+
+export interface ReviewsSummaryInfo {
+  reviewSummaryScore: number;
+  reviewSummaryScoreImageUrl: string;
+  reviewSummaryScoreDesc: string;
+  reviewSummaryCount: number;
+  positiveReviewsCount: number;
+}
+
+
+export default function BestPrice(props: hotelProps) {
+    console.log("Best Price Query Starting..")
+    console.log(props.skyScannerId)
+    const url = 'https://www.skyscanner.net/g/hotels-website/api/search/v2?adults=2&checkin=2024-09-20&checkout=2024-09-21&count=25&currency=GBP&entity_id=71821233&filters=null&from_cash_back=false&locale=en-GB&market=UK&offset=17&rooms=1'
+    const { isPending, error, data } = useQuery({
+      queryKey: ['bestHotelPrice'],
+      queryFn: () =>
+        fetch(url).then((res) => res.json(),
+        ),
+    })
+    if (isPending) return 'Loading...'
+    if (error) console.log(error)
+    if (!data) return 'No data found'
+    //Success handling
+    console.log("Data")
+    console.log(data)
+    const hotelPrices: HotelType = data
+    
+     console.log(hotelPrices?.recommendHotelsCards.length)
+
+    if (hotelPrices) {
+      console.log(hotelPrices)
+      return (
+
+        <div>
+          <h1>Best price for {props.hotelName}...</h1>
+          <div> £46 per night</div>
+
+        </div>
+      )
     }
-	if (response.ok) {
-		const pokemon = data?.pokemon
-		if (pokemon) {
-			// add fetchedAt helper (used in the UI to help differentiate requests)
-			console.log(pokemon)
-			return <div>Success</div>
-		} else {
-			return Promise.reject(new Error(`No pokemon with the name "${name}"`))
-		}
-	
-    }  
-}
 
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
+  }
 
-export default function  BestPrice(props: hotelProps) {
+/*
+  function BestPriceOld(props: hotelProps) {
     const hotelName = "Arte Vida Tarifa"
     const encodedString = encodeURI(hotelName);
     const { isPending, error, data } = useQuery({
       queryKey: ['fetchBestPrice', hotelName],
-      queryFn: async() => {
-        const data = await fetchPokemon("Pikachu")
-          return data
+      queryFn: () => {
+        const data = fetchHotelPrices(props.hotelName)
+        return data
       },
     })
-    
+
     console.log(data)
-    return(
-        
+    return (
+
       <div>
-            <h1>Best price for {props.hotelName}...</h1>
-            <div> £46 per night</div>
+        <h1>Best price for {props.hotelName}...</h1>
+        <div> £46 per night</div>
 
       </div>
     )
   }
+  */

@@ -15,6 +15,7 @@ export interface hotelProps {
   startDate: string;
   numberOfNights: number;
   numberOfPeople: number;
+  skyScannerId: number;
 }
 
 

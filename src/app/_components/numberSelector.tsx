@@ -27,7 +27,7 @@ function NumberSelector({ defaultValue}: { defaultValue: number }) {
       }
         return(
     <div className="flex">
-          <input className="appearance-none text-xl border rounded  w-12 md:w-28 py-2 px-3 text-violet-700  leading-tight"  
+          <input className="appearance-none text-xl border border-violet-500 rounded  w-12 md:w-28 py-2 px-3 text-violet-700  leading-tight"  
                     type="text" 
                     id="noPeople" 
                     name="noPeople" 

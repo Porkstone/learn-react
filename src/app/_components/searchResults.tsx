@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+    import { useQuery } from '@tanstack/react-query'
 
 export interface HotelType {
     hierarchy: string;
@@ -42,14 +42,14 @@ export default function SearchResults({ searchText, updateHotelCount, updateHote
     if (error) return 'An error has occurred: ' + error.message
     if (!data) return 'An error has occurred: No data found'
     let hotel: HotelType;
-    console.log(data)
+    //console.log(data)
     // filter for the hotels 
     const handleClick = (hotel: HotelType) => {
-        console.log(hotel.entity_name)
+       // console.log(hotel.entity_name)
         updateHotelName(hotel.entity_name)
     }
     const filteredData = data.filter((hotel: HotelType) => hotel.class == "Hotel");
-    console.log(filteredData)
+    //console.log(filteredData)
     changeParentState(filteredData.length)
 
     let hotelCards: JSX.Element;
@@ -77,7 +77,7 @@ export default function SearchResults({ searchText, updateHotelCount, updateHote
     if (filteredData.length === 1)
         {
         return (
-            <div className='border-2 bg-violet-500 rounded-md w-96 text-white'>
+            <div className=''>
                 {hotelCards}
             </div>
         )

@@ -27,7 +27,7 @@ function SearchBox() {
         <div className=" flex flex-wrap items-center text-violet-700 py-2 gap-4">
           <div className="flex flex-col">
             <label className="text-sm" htmlFor="hotel">Hotel Name</label>
-            <input className="appearance-none text-xl border rounded w-96  py-2 px-3 text-violet-700  leading-tight"
+            <input className="appearance-none text-xl border border-violet-500 rounded w-96  py-2 px-3 text-violet-700  leading-tight"
               type="text"
               autoComplete="off" // Stop iOS from making suggestions
               autoCorrect="off" // Stop iOS from making suggestions
@@ -42,7 +42,7 @@ function SearchBox() {
           
           <div className="flex flex-col">
             <label className="text-sm" htmlFor="startDate">Start Date</label>
-            <input className="appearance-none text-xl border rounded w-48  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />
+            <input className="appearance-none text-xl border border-violet-500 rounded w-48  py-2 px-3 text-violet-700  leading-tight" value={startDate} type="date" id="startDate" name="startDate" onChange={(e) => setStartDate(e.target.value)} />
           </div> 
           <div className="flex flex-col">
             <label className="text-sm" htmlFor="noNights">Nights</label>
@@ -62,7 +62,7 @@ function SearchBox() {
     </div>
     <div className='text-xl w-96' >
   <Suspense fallback={<div>Loading...</div>}>
-    {hotelCount == 1 && <BestPrice hotelName={searchText} startDate={startDate} numberOfNights={7} numberOfPeople={2} />}
+    {hotelCount == 1 && <BestPrice hotelName={searchText} startDate={startDate} numberOfNights={7} numberOfPeople={2} skyScannerId={71821233} />}
     </Suspense>
     </div>
   </div>
