@@ -6,8 +6,7 @@ the file 'route.ts' defines the handler it must be called route.ts
 import axios, { all } from 'axios';
 import { JSDOM } from 'jsdom';
 import { start } from 'repl';
-import chromium from '@sparticuz/chromium-min';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 
 export async function GET() {
   return Response.json({ name: 'John Doeds (GET)' }, { status: 200 })
@@ -20,15 +19,11 @@ export async function POST(request: Request): Promise<Response> {
   let browser = null;
 
   try {
-    const remoteExecutablePath =
-    "https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar";
+
       // OPEN BROWSER 
-      const browser = await puppeteer.launch({
-        ignoreDefaultArgs: ["--enable-automation"],
-        args: [...chromium.args, "--disable-blink-features=AutomationControlled"],
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(remoteExecutablePath)
-    });
+      browser = await puppeteer.launch({
+          headless: true
+      });
 
       const page = await browser.newPage();
 
