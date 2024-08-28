@@ -8,11 +8,11 @@ import { JSDOM } from 'jsdom';
 import { start } from 'repl';
 import puppeteer from 'puppeteer';
 
-export async function GET() {
+export async function POST() {
   return Response.json({ name: 'John Doeds (GET)' }, { status: 200 })
 }
 
-export async function POST(request: Request): Promise<Response> {
+export async function GET(request: Request): Promise<Response> {
 
   console.log('Script is starting');
 
@@ -27,7 +27,7 @@ export async function POST(request: Request): Promise<Response> {
 
       const page = await browser.newPage();
 
-      await page.goto("https://www.google.com/travel/search?q=arte%20vida%20tarifa&ts=CAEaIAoCGgASGhIUCgcI6Q8QARgPEgcI6Q8QARgQGAEyAggBKgkKBToDR0JQGgA&qs=CAEgACgBMiZDaGdJMVlULTVZcUNqSktDQVJvTEwyY3ZNWFJyWWpaaVgyc1FBUUgA&ap=KigKEgl5J12WTQZCQBExhgYdT5kWwBISCcQSI_AAB0JAETGGBl3WlRbAMAC6AQZwcmljZXM&ved=0CAAQ5JsGahcKEwiAvNil74-IAxUAAAAAHQAAAAAQCw");
+      await page.goto("https://www.google.com/travel/search?q=Arte%20Vida%20Tarifa&ts=CAAaGhIYEhIKBwjoDxALGAISBwjoDxALGAMyAggAKgcKBToDR0JQ&qs=MiZDaGdJLUoyY3h0YmF3cVdDQVJvTEwyY3ZNWFJvZWpKNGVYWVFBUQ&ap=ugEGcHJpY2Vz");
 
       await page.waitForSelector('button[jsname="b3VHJd"]'); 
       await page.click('button[jsname="b3VHJd"]');
@@ -96,7 +96,8 @@ export async function POST(request: Request): Promise<Response> {
         return priceA - priceB;
       });
       console.log("Results:", sortedResults);
-      return new Response(JSON.stringify({ sortedResults }), { status: 200 });
+      //return new Response(JSON.stringify({[{"otaName":"Booking.com","price":"£67"},{"otaName":"Agoda","price":"£67"},{"otaName":"Reserving","price":"£67"},{"otaName":"priceline.com","price":"£67"}]}, { status: 200 });
+      return new Response(JSON.stringify( sortedResults ), { status: 200, headers: { 'Content-Type': 'application/json' }}, );
 
   } catch (error) {
       console.error('Error:', error);

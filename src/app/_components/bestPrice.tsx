@@ -61,11 +61,19 @@ export interface ReviewsSummaryInfo {
   positiveReviewsCount: number;
 }
 
+export interface option {
+  otaName: string;
+  price: string;
+}
+
+export interface options {
+  options: option[];
+}
+
 
 export default function BestPrice(props: hotelProps) {
     console.log("Best Price Query Starting..")
-    console.log(props.skyScannerId)
-    const url = 'https://www.skyscanner.net/g/hotels-website/api/search/v2?adults=2&checkin=2024-09-20&checkout=2024-09-21&count=25&currency=GBP&entity_id=71821233&filters=null&from_cash_back=false&locale=en-GB&market=UK&offset=17&rooms=1'
+    const url = '/api/hello'
     const { isPending, error, data } = useQuery({
       queryKey: ['bestHotelPrice'],
       queryFn: () =>
@@ -75,24 +83,26 @@ export default function BestPrice(props: hotelProps) {
     if (isPending) return 'Loading...'
     if (error) console.log(error)
     if (!data) return 'No data found'
+    
+    
+    
     //Success handling
     console.log("Data")
-    console.log(data)
-    const hotelPrices: HotelType = data
+    console.log(JSON.stringify(data))
     
-     console.log(hotelPrices?.recommendHotelsCards.length)
-
-    if (hotelPrices) {
-      console.log(hotelPrices)
+    
+    
+    if (data.length > 0) {
+      const hotelPrices: option[] = data
       return (
-
         <div>
           <h1>Best price for {props.hotelName}...</h1>
-          <div> £46 per night</div>
-
+          <div>{hotelPrices[0].otaName}</div>
+            <div>{hotelPrices[0].price}</div>
         </div>
       )
-    }
+      console.log(data.length)  
+    } 
 
   }
 
