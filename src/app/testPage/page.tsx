@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
  const queryClient = new QueryClient()
 import { useState } from "react";
 
-import NumberSelector from "../_components/numberSelector";
 import SearchBox from "../_components/searchBox";
+import NumberSelector from "../_components/numberSelector";
 import BestPrice from "../_components/bestPrice";
 
 export interface hotelProps {

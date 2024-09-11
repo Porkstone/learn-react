@@ -22,7 +22,7 @@ export async function GET(request: Request): Promise<Response> {
 
       // OPEN BROWSER 
       browser = await puppeteer.launch({
-          headless: true
+          headless: false
       });
 
       const page = await browser.newPage();
@@ -39,7 +39,7 @@ export async function GET(request: Request): Promise<Response> {
       // INPUT DATES
       await page.evaluate(({ startDateInput, endDateInput }) => {
           function setDate(input: NodeListOf<HTMLInputElement>, value: string) {
-              if (input.length > 0) {
+              if (input.length > 0 && input[0]) {
                   input[0].focus(); 
                   input[0].value = ''; 
                   input[0].dispatchEvent(new Event('input', { bubbles: true })); 
