@@ -27,14 +27,23 @@ export default function App() {
         }
     }, [checkIn])
 
+
+    // Footgun Warning!!
+    // UseEffect has a lot of implicit behaviors that can make your code hard to understand.
+    // See Theo's video for more info https://youtu.be/Zw4lJqBphvA?si=4QdeUfr3hSdllcvR
     useEffect(() => {
         if (checkOut < checkIn) {
             console.log('Check Out is less than Check In')
-            setCheckIn(checkOut)
+            const newCheckInDate: string | undefined = addDays(new Date(checkOut), -1)
+            if (newCheckInDate != undefined) {
+                setCheckIn(newCheckInDate)
+            }
         } else {
             console.log('Dates are valid')
         }
-    }, [checkOut])
+        // This runs on unmount
+        return () => {console.log('Cleanup up here')
+        }    }, [checkOut])
 
     return (
         <main className="p-5 ">
